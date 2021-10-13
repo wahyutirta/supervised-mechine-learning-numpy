@@ -13,11 +13,22 @@ from data import *
 class KNN:
     def __init__(self, k=3):
         self.k = k
+        """
+        write another distance algorithm here
+        """
         
     def euclidean_distance(self, x1, x2):
         return np.sqrt(np.sum(np.power((x1 - x2), 2)))
     
     def fit(self, x, y):
+        """
+        x and y structures
+        x => [ [],
+              [],
+              [],
+            ]
+        y => []
+        """
         self.x_train = x
         self.y_train = y
     
