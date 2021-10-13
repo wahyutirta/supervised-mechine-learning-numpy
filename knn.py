@@ -26,15 +26,26 @@ class KNN:
         return np.array(y_pred)
     
     def _predict(self, x):
+        #compute sample's distances
         distances = [self.euclidean_distance(x_train, x) for x_train in self.x_train]
         
+        #key indeces, sort k nearest samples, label
         k_idx = np.argsort(distances)[: self.k]
-        
+        #most common class label
         k_neighbor_labels = [self.y_train[i] for i in k_idx]
-        
+        #top (1) most common class
         most_common = Counter(k_neighbor_labels).most_common(1)
         
+        #return most common result
         return most_common[0][0]
+    
+    def calculateACC(self, predictions, y_test):
+        if len(y_test.shape) == 2:
+            y_test = np.argmax(y, axis=1)
+            # np.argmax return indexs of max value each row (axis 1)
+            # np.argmax return array of index refering to position of maximun value along axis 1
+        accuracy = np.mean(predictions==y_test)
+        print(f'KNN predict acc :: {accuracy:.3f}')
     
 x, y = vertical.create_data(samples=1000, classes=5)
 plt.scatter(x[:, 0], x[:, 1], c=y, cmap='brg') 
@@ -48,12 +59,7 @@ model = KNN(k=5)
 model.fit(x, y)
 predictions = model.predict(x_test)
 
-if len(y_test.shape) == 2:
-    y_test = np.argmax(y, axis=1)
-            # np.argmax return indexs of max value each row (axis 1)
-            # np.argmax return array of index refering to position of maximun value along axis 1
-accuracy = np.mean(predictions==y_test)
-print(f'KNN predict acc :: {accuracy:.3f}')
+model.calculateACC(predictions, y_test)
     
         
         
